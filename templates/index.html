@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Games and IAs</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<div class="flex flex-row">
+    <button 
+        class="p-2 m-2 rounded border-2 border-blue-500" 
+        hx-get="api/get_test_1"
+    >
+        Test 1
+    </button>
+    <button 
+        class="p-2 m-2 rounded border-2 border-blue-500" 
+        hx-get="api/get_test_2"
+    >
+        Test 2
+    </button>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+<div class="flex flex-row">
+    {% for game in games %}
+        <button 
+            class="p-2 m-2 rounded border-2 border-blue-500" 
+            hx-get="api/get_game"
+            hx-params="{{ id: game.id }}"
+            hx-swap="content"
+        >
+            {{ game.name }}
+        </button>
+    {% endfor %}
+</div>

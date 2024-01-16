@@ -1,20 +1,8 @@
 {% extends "base.html" %}
-{% block title%}Games and IAs{% endblock %}
+{% block title %}Games and IAs{% endblock %}
 
 {% block content %}
-<div class="flex flex-row">
-    <div hx-load="get_games" />
-    <button 
-        class="p-2 m-2 rounded border-2 border-blue-500" 
-        hx-get="api/get_test_1"
-    >
-        Test 1
-    </button>
-    <button 
-        class="p-2 m-2 rounded border-2 border-blue-500" 
-        hx-get="api/get_test_2"
-    >
-        Test 2
-    </button>
-</div>
+<div hx-get="api/get_games" hx-trigger="load" />
+<--! <div hx-get="api/get_games" hx-trigger="load" hx-swap="current_game" /> -->
+<--! <div id="current_game" /> -->
 {% endblock %}

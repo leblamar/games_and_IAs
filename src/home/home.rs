@@ -1,7 +1,8 @@
 use axum::response::IntoResponse;
+use askama::Template;
+
 use crate::html_template::html_template::HtmlTemplate;
 
-use askama::Template;
 pub async fn get_home() -> impl IntoResponse {
     let template = Home {};
     HtmlTemplate(template)

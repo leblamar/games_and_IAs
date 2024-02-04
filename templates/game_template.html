@@ -1,3 +1,20 @@
-<div class="flex flex-column">
-    {{ current_game }}
+{% extends "base.html" %}
+
+{% block title %}{{ game.name }}{% endblock %}
+
+{% block content %}
+<div class="relative">
+    <div class="absolute top-0 right-0">
+        <button class="p-2 m-2 rounded border-2 border-blue-500"
+            hx-get="/home"
+            hx-push-url="true"
+            hx-target="#content"
+        >
+            Go back to other games
+        </button>
+    </div>
+    <div class="flex flex-column justify-center text-2xl p-2 m-2$">
+        {{ game.name }}
+    </div>
 </div>
+{% endblock %}

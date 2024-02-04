@@ -16,7 +16,7 @@ async fn main() {
     let api = Router::new()
         .route("/home", get(get_home))
         .route("/api/get_games", get(get_games))
-        .route("/api/get_game", get(get_game));
+        .route("/game/:id", get(get_game));
     let port: u16 = 8000;
     let addr = std::net::SocketAddr::from(([0, 0, 0, 0], port));
 

@@ -1,11 +1,11 @@
-use axum::{response::IntoResponse, Json};
+use axum::{response::IntoResponse, extract::Path};
 use askama::Template;
-use serde::Deserialize;
 
 use crate::html_template::html_template::HtmlTemplate;
+use crate::games::game::Game;
 
 pub async fn get_game(
-    Json(requested_game): Json<GameRequest>
+    Path(id): Path<usize>
 ) -> impl IntoResponse {
     let games = vec![
         Game { id: 1, name: "Morpion".to_string() },
@@ -14,31 +14,21 @@ pub async fn get_game(
     ];
 
     let game_template = games.iter()
-        .find(|game| game.id == requested_game.id)
+        .find(|game| game.id == id)
         .map(GameTemplate::from)
         .unwrap();
 
     HtmlTemplate(game_template)
 }
 
-#[derive(Deserialize)]
-pub struct GameRequest {
-    id: usize
-}
-
-struct Game {
-    id: usize,
-    name: String,
-}
-
 #[derive(Template)]
 #[template(path = "game_template.html")]
 struct GameTemplate {
-    current_game: String
+    game: Game
 }
 
 impl From<&Game> for GameTemplate {
     fn from(value: &Game) -> Self {
-        GameTemplate { current_game: value.name.clone() }
+        GameTemplate { game: value.clone() }
     }
 }

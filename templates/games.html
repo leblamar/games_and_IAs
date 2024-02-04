@@ -1,10 +1,11 @@
-<div class="flex flex-row">
+<div class="flex flex-row justify-center">
     {% for game in games %}
         <button 
             class="p-2 m-2 rounded border-2 border-blue-500" 
-            hx-get="api/get_game"
-            hx-params="{{ id: game.id }}"
-            hx-swap="content"
+            hx-get="game/{{ game.id }}"
+            hx-push-url="true"
+            hx-target="#content"
+            hx-swap="outer-html"
         >
             {{ game.name }}
         </button>

@@ -2,6 +2,7 @@ use axum::response::IntoResponse;
 use askama::Template;
 
 use crate::html_template::html_template::HtmlTemplate;
+use crate::games::game::Game;
 
 pub async fn get_games() -> impl IntoResponse {
     let template = Games {
@@ -12,11 +13,6 @@ pub async fn get_games() -> impl IntoResponse {
         ]
     };
     HtmlTemplate(template)
-}
-
-struct Game {
-    id: usize,
-    name: String,
 }
 
 #[derive(Template)]

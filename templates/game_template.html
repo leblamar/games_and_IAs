@@ -16,5 +16,6 @@
     <div class="flex flex-column justify-center text-2xl p-2 m-2$">
         {{ game.name }}
     </div>
+    <div hx-get="api/game/{{ game.id }}" hx-trigger="load" />
 </div>
 {% endblock %}

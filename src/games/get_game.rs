@@ -1,34 +1,20 @@
-use axum::{response::IntoResponse, extract::Path};
-use askama::Template;
+use axum::extract::Path;
+use maud::{Markup, html};
 
-use crate::html_template::html_template::HtmlTemplate;
-use crate::games::game::Game;
+use super::game_factory::GameFactory;
 
 pub async fn get_game(
-    Path(id): Path<usize>
-) -> impl IntoResponse {
-    let games = vec![
-        Game { id: 1, name: "Morpion".to_string() },
-        Game { id: 2, name: "Puissance 4".to_string() },
-        Game { id: 3, name: "Les Dames".to_string() }
-    ];
+    Path(id): Path<String>
+) -> Markup {
+    let game_factory = GameFactory { id };
+    let game = game_factory.create_game_id().unwrap();
+    //let game_html = game_factory.create_game_html().unwrap();
 
-    let game_template = games.iter()
-        .find(|game| game.id == id)
-        .map(GameTemplate::from)
-        .unwrap();
-
-    HtmlTemplate(game_template)
-}
-
-#[derive(Template)]
-#[template(path = "game_template.html")]
-struct GameTemplate {
-    game: Game
-}
-
-impl From<&Game> for GameTemplate {
-    fn from(value: &Game) -> Self {
-        GameTemplate { game: value.clone() }
+    html! {
+        #game_header.flex.flex-row.justify-center {
+            #game_title { (game.get_name()) }
+            #return_button {}
+        }
+        div { "Game with id:" (game.get_id()) " and with name:" (game.get_name()) }
     }
 }

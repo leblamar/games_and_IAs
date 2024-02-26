@@ -1,22 +1,34 @@
-use axum::response::IntoResponse;
-use askama::Template;
+use maud::{html, Markup};
 
-use crate::html_template::html_template::HtmlTemplate;
-use crate::games::game::Game;
+use crate::games::game_factory::GameFactory;
+use crate::template_utils::{
+    button_utils::button, htmx_instructions_builder::HtmxInstructionsBuilder,
+};
 
-pub async fn get_games() -> impl IntoResponse {
-    let template = Games {
-        games: vec![
-            Game { id: 1, name: "Morpion".to_string() },
-            Game { id: 2, name: "Puissance 4".to_string() },
-            Game { id: 3, name: "Les Dames".to_string() }
-        ]
-    };
-    HtmlTemplate(template)
+use super::game_id::GameId;
+
+fn button_game(game: GameId) -> Markup {
+    let get = format!("game_template/{}", game.get_id());
+    let game_instructions = HtmxInstructionsBuilder::new()
+        .get(get.as_str())
+        .push_url()
+        .target("#games_nav_bar")
+        .swap("outerHTML")
+        .build();
+
+    html! {
+        (button(game.get_name(), game_instructions))
+    }
 }
 
-#[derive(Template)]
-#[template(path = "games.html")]
-struct Games {
-    games: Vec<Game>
+pub async fn get_games() -> Markup {
+    let games = GameFactory::get_games();
+
+    html! {
+        #games_nav_bar.flex.flex-row.justify-center {
+            @for game in games {
+                (button_game(game))
+            }
+        }
+    }
 }

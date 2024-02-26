@@ -1,13 +1,11 @@
-use axum::response::IntoResponse;
-use askama::Template;
+use maud::{html, Markup};
 
-use crate::html_template::html_template::HtmlTemplate;
+use crate::template_utils::base_utils::base;
 
-pub async fn get_home() -> impl IntoResponse {
-    let template = Home {};
-    HtmlTemplate(template)
+pub async fn get_home() -> Markup {
+    let content = html! {
+        div hx-get="api/get_games" hx-trigger="load" hx-swap="outerHTML" {}
+    };
+
+    base("Games and IAs", content)
 }
-
-#[derive(Template)]
-#[template(path = "index.html")]
-struct Home;

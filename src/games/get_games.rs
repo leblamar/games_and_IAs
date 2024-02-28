@@ -3,6 +3,7 @@ use maud::{html, Markup};
 use crate::games::game_factory::GameFactory;
 use crate::template_utils::{
     button_utils::button, htmx_instructions_builder::HtmxInstructionsBuilder,
+    swap_opt::SwapOpt
 };
 
 use super::game_id::GameId;
@@ -13,7 +14,7 @@ fn button_game(game: GameId) -> Markup {
         .get(get.as_str())
         .push_url()
         .target("#games_nav_bar")
-        .swap("outerHTML")
+        .swap(&SwapOpt::OUTER_HTML)
         .build();
 
     html! {
@@ -21,7 +22,7 @@ fn button_game(game: GameId) -> Markup {
     }
 }
 
-pub async fn get_games() -> Markup {
+pub async fn games() -> Markup {
     let games = GameFactory::get_games();
 
     html! {

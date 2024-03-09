@@ -26,16 +26,13 @@ pub async fn game_template(Path(id): Path<String>) -> Markup {
         .build();
 
     html! {
-        #game_header.relative.p-2 {
-            #return_button_wrapper.absolute.top-0.right-0 {
+        #game_header.p-2.flex.flex-row.items-center.border-b-2 {
+            #invisible_div.invisible."w-1/3" {}
+            #game_title."w-1/3".flex.justify-center { (game.get_name()) }
+            #return_button_wrapper."w-1/3".flex.justify-end {
                 (button(return_button_label, button_htmx))
             }
-            #game_title.flex.flex-row.justify-center {
-                #game_title { (game.get_name()) }
-            }
         }
-        #board_game {
-            (loader("board_game_loader", board_game_loader_htmx))
-        }
+        (loader("board_game_loader", board_game_loader_htmx))
     }
 }
